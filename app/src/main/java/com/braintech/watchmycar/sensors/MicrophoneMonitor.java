@@ -99,7 +99,7 @@ public final class MicrophoneMonitor implements MicSamplerTask.MicListener {
         if (average != 0) {
             averageDB = 20 * Math.log10(Math.abs(average));
         }
-        Log.d("MicrophoneMonitor", "averageDB is " + averageDB);
+        //Log.d("MicrophoneMonitor", "averageDB is " + averageDB);
 
         if (averageDB > mNoiseThreshold) {
             Log.d("MicrophoneMonitor","\n\nWill trigger alarm!!!\n\n");

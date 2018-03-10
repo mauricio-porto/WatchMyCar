@@ -99,6 +99,7 @@ public class Keeper extends Service {
     public static final int ARDUINO_DATA = 4;
     public static final int LOCATION_DATA = 5;
     public static final int NOT_RUNNING = 6;
+    public static final int TEXT_MESSAGE = 7;
 
     public static enum BT_STATUS {
     	ARDUINO_NOT_CONFIGURED,
@@ -106,7 +107,8 @@ public class Keeper extends Service {
     	ARDUINO_CONNECTED,
     	CONNECTING,
     	ARDUINO_DATA,
-    	NOT_RUNNING
+    	NOT_RUNNING,
+        TEXT_MESSAGE
     }
 
     // Key names received
@@ -181,9 +183,9 @@ public class Keeper extends Service {
         this.toast.setGravity(Gravity.CENTER, 0, 0);
         showNotification("Started", "WatchMyCar is running...");
 
-        //this.notifier = new Notification(R.drawable.ic_launcher, "GuideDroid is running...", System.currentTimeMillis());
+        //this.notifier = new Notification(R.drawable.ic_launcher, "WatchMyCar is running...", System.currentTimeMillis());
 
-        //this.notifier.setLatestEventInfo(this, "GuideDroid", "Your guide friend", this.buildIntent());	// TODO: Localize!!!!
+        //this.notifier.setLatestEventInfo(this, "WatchMyCar", "Your guide friend", this.buildIntent());	// TODO: Localize!!!!
         //this.notifier.flags |= Notification.FLAG_ONGOING_EVENT | Notification.FLAG_NO_CLEAR;
     }
 
@@ -231,7 +233,7 @@ public class Keeper extends Service {
         this.mBumpMonitor = new BumpMonitor(this, sensorMessages);
         this.mAccelMonitor = new AccelerometerMonitor(this, sensorMessages);
 
-        this.notifyUser("GuideDroid is running.", "GuideDroid is running...");
+        this.notifyUser("WatchMyCar is running.", "WatchMyCar is running...");
         this.running = true;
     }
 
@@ -242,7 +244,7 @@ public class Keeper extends Service {
         	this.connector.stop();
         }
        
-        this.notifyUser("Stopped. Select to start again.", "Stopping GuideDroid.");
+        this.notifyUser("Stopped. Select to start again.", "Stopping WatchMyCar.");
 		this.running = false;
     }
 
@@ -300,7 +302,7 @@ public class Keeper extends Service {
      * Show a notification
      */
     private void notifyUser(String action, String alert) {
-        CharSequence serviceName = "GuideDroid";  //super.getText(R.string.service_name);
+        CharSequence serviceName = "WatchMyCar";  //super.getText(R.string.service_name);
         CharSequence actionText = action;
         CharSequence notificationText = alert;
         //this.notifier = new Notification(R.drawable.ic_launcher, notificationText, System.currentTimeMillis());

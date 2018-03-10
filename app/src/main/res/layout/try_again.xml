@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main_content"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
-
-    <FrameLayout
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -24,7 +20,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/title_countdown_time"
-                android:textColor="@color/White"
+                android:textColor="@color/Black"
                 android:textSize="28dp"
                 android:textStyle="bold" />
 
@@ -34,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/countdown_time"
-                android:textColor="@color/White"
+                android:textColor="@color/Black"
                 android:textSize="28dp"
                 android:textStyle="bold" />
 
@@ -44,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/alarm_status_off"
-                android:textColor="@color/White"
+                android:textColor="@color/Black"
                 android:textSize="48sp"
                 android:textStyle="bold" />
 
@@ -53,7 +49,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:background="@drawable/round_drawable_accent"
                 android:padding="6dp"
                 android:text="@string/start_stop"
                 android:textColor="@color/colorAccent"
@@ -62,5 +57,20 @@
 
         </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom|center_horizontal"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
     </FrameLayout>
-</android.support.design.widget.CoordinatorLayout>
+
+</android.support.constraint.ConstraintLayout>

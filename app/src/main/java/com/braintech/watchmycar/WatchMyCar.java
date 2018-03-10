@@ -9,39 +9,47 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.braintech.watchmycar.base.PreferenceManager;
 import com.braintech.watchmycar.service.Keeper;
+import static com.braintech.watchmycar.Utils.getTimerText;
 
 public class WatchMyCar extends AppCompatActivity {
 
     private static final String TAG = WatchMyCar.class.getSimpleName();
+    private PreferenceManager preferences = null;
 
 	// Local Bluetooth adapter
     private BluetoothAdapter mBluetoothAdapter = null;
 
     private boolean isConfigured = false;
+    private CountDownTimer cTimer;
+    private boolean mOnTimerTicking = false;
+    private TextView txtAlarmStatus;
+    private TextView txtTimer;
+    private TextView txtTimerTitle;
 
     private Keeper keeper;
 
     private boolean hasPermissions = false;
     private boolean receiverSvcConnected = false;
     private boolean isBound = false;
-    private boolean serviceRunning = false;
+    private boolean armed = false;
     private Messenger messageReceiver = null;
 
     private static final int PERMISSION_RECORD_AUDIO = 0;
@@ -53,30 +61,11 @@ public class WatchMyCar extends AppCompatActivity {
 
     private TextView mTextMessage;
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    mTextMessage.setText(R.string.title_home);
-                    return true;
-                case R.id.navigation_dashboard:
-                    mTextMessage.setText(R.string.title_dashboard);
-                    return true;
-                case R.id.navigation_notifications:
-                    mTextMessage.setText(R.string.title_notifications);
-                    return true;
-            }
-            return false;
-        }
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_watch_my_car);
+        preferences = new PreferenceManager(getApplicationContext());
+        setContentView(R.layout.try_again);
 
 		// Get local Bluetooth adapter
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -89,8 +78,26 @@ public class WatchMyCar extends AppCompatActivity {
         }
 
         mTextMessage = (TextView) findViewById(R.id.message);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        txtAlarmStatus = (TextView) findViewById(R.id.alarm_status_text);
+        txtTimer = (TextView) findViewById(R.id.timer_text);
+        txtTimerTitle = (TextView) findViewById(R.id.timer_text_title);
+        int timeM = preferences.getTimerDelay() * 1000;
+        txtTimer.setText(getTimerText(timeM));
+
+        findViewById(R.id.btnStartStop).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (armed) {
+                    doCancel();
+                } else {
+                    if (mOnTimerTicking) {
+                        doCancel();
+                    } else {
+                        initTimer();
+                    }
+                }
+            }
+        });
 
         if (ContextCompat.checkSelfPermission(WatchMyCar.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
             // Request permission
@@ -103,8 +110,21 @@ public class WatchMyCar extends AppCompatActivity {
         this.startKeeper();
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        Log.d(TAG, "onSaveInstanceState");
+        outState.putBoolean("armed", armed);
+        super.onSaveInstanceState(outState);
+    }
 
-     @Override
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        Log.d(TAG, "onRestoreInstanceState");
+        super.onRestoreInstanceState(savedInstanceState);
+        armed = savedInstanceState.getBoolean("armed");
+    }
+
+    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             case PERMISSION_RECORD_AUDIO:
@@ -123,6 +143,7 @@ public class WatchMyCar extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        Log.d(TAG, "onDestroy");
         //this.stopKeeper();
         super.onDestroy();
     }
@@ -141,8 +162,9 @@ public class WatchMyCar extends AppCompatActivity {
         stopService(intent);
     }
 
-        @Override
+    @Override
     protected void onResume() {
+        Log.d(TAG, "onResume");
         super.onResume();
         if (!this.isBound) {
             Intent serviceIntent = new Intent(this, Keeper.class);
@@ -152,6 +174,7 @@ public class WatchMyCar extends AppCompatActivity {
 
     @Override
     protected void onPause() {
+        Log.d(TAG, "onPause");
         super.onPause();
         this.unbindKeeper();
     }
@@ -192,6 +215,44 @@ public class WatchMyCar extends AppCompatActivity {
         }
     }
 
+    private void initTimer() {
+        cTimer = new CountDownTimer((preferences.getTimerDelay()) * 1000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                mOnTimerTicking = true;
+                txtTimer.setText(getTimerText(millisUntilFinished));
+            }
+
+            public void onFinish() {
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                mOnTimerTicking = false;
+                txtAlarmStatus.setText(R.string.alarm_status_on);
+                txtTimer.setVisibility(View.INVISIBLE);
+                txtTimerTitle.setVisibility(View.INVISIBLE);
+                armed = true;
+                //initMonitor();
+            }
+        };
+        cTimer.start();
+    }
+
+    private void doCancel() {
+
+        if (cTimer != null) {
+            cTimer.cancel();
+            cTimer = null;
+            mOnTimerTicking = false;
+        }
+
+        txtAlarmStatus.setText(R.string.alarm_status_off);
+        int timeM = preferences.getTimerDelay() * 1000;
+        txtTimer.setText(getTimerText(timeM));
+        txtTimer.setVisibility(View.VISIBLE);
+        txtTimerTitle.setVisibility(View.VISIBLE);
+        armed = false;
+        //TODO Stop service????
+    }
+
     /**
      * Handler of incoming messages from Keeper.
      */
@@ -220,9 +281,22 @@ public class WatchMyCar extends AppCompatActivity {
                 //Toast.makeText(GuideDroid.this, R.string.title_connecting, Toast.LENGTH_SHORT).show();
             	break;
             case Keeper.NOT_RUNNING:
-            	serviceRunning = false;
+            	armed = false;
             	//startActivityForResult(new Intent().setClass(CardioTalk.this, Controller.class), REQUEST_START_SERVICE);
             	break;
+            case Keeper.TEXT_MESSAGE:
+                Log.d(TAG, "\n\nMessage received.");
+                if (msg.arg1 > 0) {	// msg.arg1 contains the number of bytes read
+                    Log.d(TAG, "\tRead size: " + msg.arg1);
+                    byte[] readBuf = (byte[]) msg.obj;
+                    byte[] readBytes = new byte[msg.arg1];
+                    System.arraycopy(readBuf, 0, readBytes, 0, msg.arg1);
+                    // Log.d(TAG, "\tAs Hex: " + asHex(readBytes));
+                    // construct a string from the valid bytes in the buffer
+                    String readMessage = new String(readBuf, 0, msg.arg1).trim();
+                    Log.d(TAG, "\tHere it is: " + readMessage);
+                }
+                break;
             default:
             	break;
             }

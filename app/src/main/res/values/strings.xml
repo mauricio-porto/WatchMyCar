@@ -44,4 +44,9 @@
     <string name="sensor_bump">Bump (Accelerometer)</string>
     <string name="sensor_camera_video">Motion (Video)</string>
     <string name="sensor_unknown">Unknown</string>
+
+    <string name="alarm_status_on">ARMED</string>
+    <string name="alarm_status_off">DISARMED</string>
+    <string name="countdown_time">1:00</string>
+    <string name="title_countdown_time">Countdown:</string>
 </resources>
