@@ -142,7 +142,7 @@ public class Keeper extends Service {
 	private float defaultDuration = (float) 0.3;
 
     private boolean running = false;
-    private boolean armed = false;
+    private volatile boolean armed = false;
 
     private int mBTarduinoStatus = NONE;
 
@@ -220,6 +220,7 @@ public class Keeper extends Service {
     @Override
     public void onDestroy() {
         Log.d(TAG, "onDestroy()");
+        this.stopAll();
         this.running = false;
 	    super.onDestroy();
     }

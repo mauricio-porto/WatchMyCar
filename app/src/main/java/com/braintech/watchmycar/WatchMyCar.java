@@ -347,7 +347,7 @@ public class WatchMyCar extends AppCompatActivity {
     };
 
     private void unbindKeeper() {
-    	Log.d(TAG, "unbindBluetoothReceiver() - supposing it is bound");
+    	Log.d(TAG, "unbindKeeper() - supposing it is bound");
     	if (this.isBound) {
             if (messageReceiver  != null) {
                 try {
@@ -360,7 +360,7 @@ public class WatchMyCar extends AppCompatActivity {
             }
             this.unbindService(btReceiverConnection);
     	} else {
-    		Log.d(TAG, "unbindHRMReceiver() - \tBut it was not!!!");
+    		Log.d(TAG, "unbindKeeper() - \tBut it was not!!!");
     	}
     	this.receiverSvcConnected = false;
     	this.isBound = false;
