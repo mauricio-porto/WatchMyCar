@@ -144,7 +144,7 @@ public class WatchMyCar extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         Log.d(TAG, "onDestroy");
-        //this.stopKeeper();
+        this.stopKeeper();
         super.onDestroy();
     }
 
@@ -230,7 +230,7 @@ public class WatchMyCar extends AppCompatActivity {
                 txtTimer.setVisibility(View.INVISIBLE);
                 txtTimerTitle.setVisibility(View.INVISIBLE);
                 armed = true;
-                //initMonitor();
+                sendTextToService(Keeper.ARM, "armed");
             }
         };
         cTimer.start();
@@ -250,7 +250,7 @@ public class WatchMyCar extends AppCompatActivity {
         txtTimer.setVisibility(View.VISIBLE);
         txtTimerTitle.setVisibility(View.VISIBLE);
         armed = false;
-        //TODO Stop service????
+        sendTextToService(Keeper.DISARM, "disarmed");
     }
 
     /**

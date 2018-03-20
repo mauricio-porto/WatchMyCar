@@ -29,6 +29,7 @@ import com.braintech.watchmycar.R;
 import com.braintech.watchmycar.WatchMyCar;
 import com.braintech.watchmycar.base.BluetoothConnector;
 import com.braintech.watchmycar.base.EventTrigger;
+import com.braintech.watchmycar.base.SMSsender;
 import com.braintech.watchmycar.sensors.AccelerometerMonitor;
 import com.braintech.watchmycar.sensors.BumpMonitor;
 import com.braintech.watchmycar.sensors.MicrophoneMonitor;
@@ -60,7 +61,8 @@ public class Keeper extends Service {
     public static final int UNREGISTER_LISTENER = 3;
     public static final int REGISTER_HANDLER = 4;
     public static final int UNREGISTER_HANDLER = 5;
-    public static final int SEND_MESSAGE = 6;
+    public static final int ARM = 6;
+    public static final int DISARM = 7;
 
     public static enum ACTION {
     	CONNECT_TO,
@@ -69,7 +71,8 @@ public class Keeper extends Service {
     	UNREGISTER_LISTENER,
     	REGISTER_HANDLER,
     	UNREGISTER_HANDLER,
-    	SEND_MESSAGE
+    	ARM,
+        DISARM
     }
 
     public static final int ACCELEROMETER = EventTrigger.ACCELEROMETER;
@@ -124,6 +127,12 @@ public class Keeper extends Service {
 
     public static final int DIST_FREQ_RATIO = 75000;
 
+    // SMS data
+    public static final String MY_NUMBER = "993191979";
+    public static final String HER_NUMBER = "994151979";
+    public static final long MIN_SMS_INTERVAL = 10 * 1000; // 10 seconds
+    private long lastSMSsent = 0L;
+
     private static NotificationManager notifMgr;
 
     private Toast toast;
@@ -133,6 +142,7 @@ public class Keeper extends Service {
 	private float defaultDuration = (float) 0.3;
 
     private boolean running = false;
+    private boolean armed = false;
 
     private int mBTarduinoStatus = NONE;
 
@@ -506,12 +516,13 @@ public class Keeper extends Service {
             case UNREGISTER_HANDLER:
             	activityHandler = null;
             	break;
-            case SEND_MESSAGE:
-            	String message = msg.getData().getString(TEXT_MSG);
-            	if (message != null && message.length() > 0) {
-            		sendToDevice(message);
-            	}
+            case ARM:
+                armed = true;
+                sendToDevice("A");
             	break;
+            case DISARM:
+                armed = false;
+                break;
             default:
             	break;
             }
@@ -522,16 +533,24 @@ public class Keeper extends Service {
     /**
      * Handler of incoming messages from sensors
      */
-    private static final Handler sensorMessages = new Handler() {
+    private final Handler sensorMessages = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             Log.i(TAG, "Received sensor message: " + TRIGGER.values()[msg.what]);
+            if (!armed) {
+                Log.i(TAG, "Not armed!!!");
+                return;
+            }
             switch (msg.what) {
                 case ACCELEROMETER:
+                    sendToDevice("G");
+                    alert("Acelerometro!");
                     break;
                 case CAMERA:
                     break;
                 case MICROPHONE:
+                    sendToDevice("G");
+                    alert("Barulho!");
                     break;
                 case PRESSURE:
                     break;
@@ -540,6 +559,8 @@ public class Keeper extends Service {
                 case POWER:
                     break;
                 case BUMP:
+                    sendToDevice("G");
+                    alert("Sacudida!");
                     break;
             default:
                 break;
@@ -548,4 +569,14 @@ public class Keeper extends Service {
     };
     final Messenger sensorMsgListener = new Messenger(sensorMessages);
 
+    private void alert(String msg) {
+        long now = System.currentTimeMillis();
+        if ((now - lastSMSsent) > MIN_SMS_INTERVAL) {
+            lastSMSsent = now;
+            StringBuilder message = new StringBuilder();
+            message.append("Alerta WatchMyCar: ").append(msg);
+            SMSsender.sendSMS(MY_NUMBER, message.toString());
+            SMSsender.sendSMS(HER_NUMBER, message.toString());
+        }
+    }
 }
