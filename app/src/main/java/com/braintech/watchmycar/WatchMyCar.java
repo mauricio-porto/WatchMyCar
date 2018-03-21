@@ -262,7 +262,7 @@ public class WatchMyCar extends AppCompatActivity {
         	if (msg.what < 0) {
         		return;
         	}
-            Log.i(TAG, "Received message: " + Keeper.BT_STATUS.values()[msg.what]);
+            Log.i(TAG, "Received message from Keeper: " + Keeper.BT_STATUS.values()[msg.what]);
             switch (msg.what) {
             case Keeper.ARDUINO_DATA:
             	break;
@@ -276,26 +276,19 @@ public class WatchMyCar extends AppCompatActivity {
                 //startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
             	break;
             case Keeper.ARDUINO_CONNECTED:
+                mTextMessage.setText("Arduino connected");  // TODO Colocar em Strings
             	break;
             case Keeper.CONNECTING:
-                //Toast.makeText(GuideDroid.this, R.string.title_connecting, Toast.LENGTH_SHORT).show();
+                mTextMessage.setText("Connecting to Arduino");  // TODO idem
             	break;
             case Keeper.NOT_RUNNING:
             	armed = false;
-            	//startActivityForResult(new Intent().setClass(CardioTalk.this, Controller.class), REQUEST_START_SERVICE);
+                mTextMessage.setText("Keeper says not running...");  // TODO idem
             	break;
             case Keeper.TEXT_MESSAGE:
-                Log.d(TAG, "\n\nMessage received.");
-                if (msg.arg1 > 0) {	// msg.arg1 contains the number of bytes read
-                    Log.d(TAG, "\tRead size: " + msg.arg1);
-                    byte[] readBuf = (byte[]) msg.obj;
-                    byte[] readBytes = new byte[msg.arg1];
-                    System.arraycopy(readBuf, 0, readBytes, 0, msg.arg1);
-                    // Log.d(TAG, "\tAs Hex: " + asHex(readBytes));
-                    // construct a string from the valid bytes in the buffer
-                    String readMessage = new String(readBuf, 0, msg.arg1).trim();
-                    Log.d(TAG, "\tHere it is: " + readMessage);
-                }
+                String message = msg.getData().getString("Message");
+                mTextMessage.setText(message);
+                Log.d(TAG, "\n\nMessage received: " + message);
                 break;
             default:
             	break;

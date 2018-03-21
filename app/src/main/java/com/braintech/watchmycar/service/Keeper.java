@@ -100,9 +100,8 @@ public class Keeper extends Service {
     public static final int ARDUINO_CONNECTED = 2;
     public static final int CONNECTING = 3;
     public static final int ARDUINO_DATA = 4;
-    public static final int LOCATION_DATA = 5;
-    public static final int NOT_RUNNING = 6;
-    public static final int TEXT_MESSAGE = 7;
+    public static final int NOT_RUNNING = 5;
+    public static final int TEXT_MESSAGE = 6;
 
     public static enum BT_STATUS {
     	ARDUINO_NOT_CONFIGURED,
@@ -239,22 +238,37 @@ public class Keeper extends Service {
     		this.notifyUser("Select to configure ARDUINO device.", "ARDUINO device not configured.");
         	return;
         }
-
-        this.mMicMonitor = new MicrophoneMonitor(this, sensorMessages);
-        this.mBumpMonitor = new BumpMonitor(this, sensorMessages);
-        this.mAccelMonitor = new AccelerometerMonitor(this, sensorMessages);
+        this.startSensors();
 
         this.notifyUser("WatchMyCar is running.", "WatchMyCar is running...");
         this.running = true;
     }
 
+    private void startSensors() {
+        this.mMicMonitor = new MicrophoneMonitor(this, sensorMessages);
+        this.mBumpMonitor = new BumpMonitor(this, sensorMessages);
+        this.mAccelMonitor = new AccelerometerMonitor(this, sensorMessages);
+    }
+
+    private void stopSensors() {
+        if (this.mMicMonitor != null) {
+            this.mMicMonitor.stop(this);
+        }
+        if (this.mBumpMonitor != null) {
+            this.mBumpMonitor.stop(this);
+        }
+        if (this.mAccelMonitor != null) {
+            this.mAccelMonitor.stop(this);
+        }
+    }
+
 	private void stopAll() {
-    	Log.d(TAG, "\n\n\n\nstopAll()\n\n\n\n");
+        Log.d(TAG, "\n\n\n\nstopAll()\n\n\n\n");
         arduinoConnected = false;
         if (this.connector != null) {
         	this.connector.stop();
         }
-       
+        this.stopSensors();
         this.notifyUser("Stopped. Select to start again.", "Stopping WatchMyCar.");
 		this.running = false;
     }
@@ -417,17 +431,17 @@ public class Keeper extends Service {
             case MESSAGE_READ:
                 Log.d(TAG, "\n\nData received.");
                 if (msg.arg1 > 0) {	// msg.arg1 contains the number of bytes read
-                	Log.d(TAG, "\tRead size: " + msg.arg1);
+                	//Log.d(TAG, "\tRead size: " + msg.arg1);
                     byte[] readBuf = (byte[]) msg.obj;
                     byte[] readBytes = new byte[msg.arg1];
                     System.arraycopy(readBuf, 0, readBytes, 0, msg.arg1);
-                    // Log.d(TAG, "\tAs Hex: " + asHex(readBytes));
+                    Log.d(TAG, "\tAs Hex: " + asHex(readBytes));
                     // construct a string from the valid bytes in the buffer
                     String readMessage = new String(readBuf, 0, msg.arg1).trim();
-                    if (readMessage.length() < 2) {
-                        break;
-                    }
                     Log.d(TAG, "\tHere it is: " + readMessage);
+                    if (readMessage.contains("T")) {
+                        alert("Caçamba!");
+                    }
                 }
                 break;
             case MESSAGE_DEVICE_NAME:
@@ -481,6 +495,22 @@ public class Keeper extends Service {
         }
     }
 
+    private void notifyMsg(String txt) {
+        if (activityHandler != null) {
+            Message msg = Message.obtain(null, TEXT_MESSAGE);
+            Bundle bundle = new Bundle();
+            bundle.putString("Message", txt);
+            msg.setData(bundle);
+        	try {
+				activityHandler.send(msg);
+			} catch (RemoteException e) {
+				// Nothing to do
+			}
+        } else {
+        	Log.d(TAG, "notifyMsg() - NO Activity handler to receive!");
+        }
+    }
+
     /**
      * Handler of incoming messages from clients, i.e., WatchMyCar activity.
      */
@@ -523,6 +553,7 @@ public class Keeper extends Service {
             	break;
             case DISARM:
                 armed = false;
+                sendToDevice("D");
                 break;
             default:
             	break;
@@ -576,8 +607,10 @@ public class Keeper extends Service {
             lastSMSsent = now;
             StringBuilder message = new StringBuilder();
             message.append("Alerta WatchMyCar: ").append(msg);
-            SMSsender.sendSMS(MY_NUMBER, message.toString());
-            SMSsender.sendSMS(HER_NUMBER, message.toString());
+            String txt = message.toString();
+            SMSsender.sendSMS(MY_NUMBER, txt);
+            SMSsender.sendSMS(HER_NUMBER, txt);
+            notifyMsg(txt);
         }
     }
 }
