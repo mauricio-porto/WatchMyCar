@@ -127,8 +127,8 @@ public class Keeper extends Service {
     public static final int DIST_FREQ_RATIO = 75000;
 
     // SMS data
-    public static final String MY_NUMBER = "993191979";
-    public static final String HER_NUMBER = "994151979";
+    public static final String MY_NUMBER = "+5551993191979";
+    public static final String HER_NUMBER = "+5551994151979";
     public static final long MIN_SMS_INTERVAL = 10 * 1000; // 10 seconds
     private long lastSMSsent = 0L;
 
