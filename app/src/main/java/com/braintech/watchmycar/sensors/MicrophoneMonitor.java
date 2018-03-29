@@ -28,7 +28,9 @@ public final class MicrophoneMonitor implements MicSamplerTask.MicListener {
     /**
      * Threshold for the decibels sampled
      */
-    private double mNoiseThreshold = 70.0;
+    private double mNoiseThreshold = 70.0;  // defaults to low sensivity
+    private final double HIGH_SENSIVITY_THRESHOLD = 40.0;
+    private final double MEDIUM_SENSIVITY_THRESHOLD = 60.0;
 
     private Context context;
 
@@ -40,11 +42,11 @@ public final class MicrophoneMonitor implements MicSamplerTask.MicListener {
         prefs = new PreferenceManager(context);
 
         switch (prefs.getMicrophoneSensitivity()) {
-            case "High":
-                mNoiseThreshold = 40;
+            case PreferenceManager.HIGH:
+                mNoiseThreshold = HIGH_SENSIVITY_THRESHOLD;
                 break;
-            case "Medium":
-                mNoiseThreshold = 60;
+            case PreferenceManager.MEDIUM:
+                mNoiseThreshold = MEDIUM_SENSIVITY_THRESHOLD;
                 break;
             default:
                 try {

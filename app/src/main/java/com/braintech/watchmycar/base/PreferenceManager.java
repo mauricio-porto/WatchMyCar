@@ -41,7 +41,7 @@ public class PreferenceManager {
     public static final String BACK = "Back";
     public static final String NONE = "None";
 	
-    private static final String APP_SHARED_PREFS="org.havenapp.main";
+    private static final String APP_SHARED_PREFS="com.braintech.watchmycar";
     private static final String ACCELEROMETER_ACTIVE="accelerometer_active";
     private static final String ACCELEROMETER_SENSITIVITY="accelerometer_sensibility";
     private static final String CAMERA_ACTIVE="camera_active";
