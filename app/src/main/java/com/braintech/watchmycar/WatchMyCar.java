@@ -16,6 +16,7 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -106,6 +107,15 @@ public class WatchMyCar extends AppCompatActivity {
                     PERMISSION_RECORD_AUDIO);
             return;
         }
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent modifySettings=new Intent(WatchMyCar.this,SettingsActivity.class);
+                startActivity(modifySettings);
+            }
+        });
 
         this.startKeeper();
     }

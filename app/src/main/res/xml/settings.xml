@@ -1,0 +1,59 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <Preference
+        android:key="config_delay_time"
+        android:title="@string/timer_delay_label" />
+
+    <PreferenceCategory android:title="@string/pref_sensors">
+
+        <Preference
+            android:key="config_sound"
+            android:title="@string/microphone_sensitivity" />
+
+        <Preference
+            android:key="config_movement"
+            android:title="@string/accelerometer_prompt" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_notifications">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="sms_active"
+            android:title="@string/sms_label" />
+
+        <EditTextPreference
+            android:dialogLayout="@layout/pref_dialog_edit_text_hint"
+            android:dialogMessage="@string/sms_dialog_message"
+            android:inputType="phone"
+            android:key="sms_number"
+            android:summary="@string/sms_dialog_summary"
+            android:title="@string/phone_number" />
+
+        <EditTextPreference
+            android:dialogLayout="@layout/pref_dialog_edit_text_hint"
+            android:dialogMessage="@string/register_signal_desc"
+            android:inputType="phone"
+            android:key="register_signal"
+            android:summary="@string/signal_dialog_summary"
+            android:title="@string/signal_number" />
+
+        <EditTextPreference
+            android:dialogLayout="@layout/pref_dialog_edit_text"
+            android:dialogMessage="@string/enter_verification"
+            android:inputType="number"
+            android:key="verify_signal"
+            android:summary="@string/verification_dialog_summary"
+            android:title="@string/verify_signal" />
+
+        <EditTextPreference
+            android:dialogLayout="@layout/pref_dialog_edit_text"
+            android:dialogMessage="@string/notification_time_dialog"
+            android:inputType="number"
+            android:key="notification_time"
+            android:summary="@string/notification_time_summary"
+            android:title="@string/notification_time"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>

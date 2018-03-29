@@ -228,7 +228,7 @@ public class Keeper extends Service {
     	Log.d(TAG, "init()\n\n\n\n");
 
     	// Connect to the ARDUINO device
-
+/*
         if (!mBluetoothAdapter.isEnabled()) {
             this.mBTarduinoStatus = BT_DISABLED;
             this.notifyUser("Select to enable bluetooth.", "Must enable bluetooth.");
@@ -239,6 +239,7 @@ public class Keeper extends Service {
     		this.notifyUser("Select to configure ARDUINO device.", "ARDUINO device not configured.");
         	return;
         }
+*/
 
         this.startSensors();
 

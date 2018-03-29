@@ -6,4 +6,6 @@
     <color name="Black">#000000</color>
     <color name="White">#FFFFFF</color>
     <color name="transparent">#00000000</color>
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#757575</color>
 </resources>
