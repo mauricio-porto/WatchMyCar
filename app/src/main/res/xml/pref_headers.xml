@@ -10,17 +10,17 @@
     </header>
 
     <header
-        android:fragment="com.braintech.watchmycar.SettingsActivity$GeneralPreferenceFragment"
+        android:fragment="com.braintech.watchmycar.SettingsActivity$NotificationPreferenceFragment"
         android:icon="@drawable/ic_notifications_black_24dp"
         android:title="@string/pref_notifications" >
         <extra android:name="settings" android:value="prefs_notification" ></extra>
     </header>
 
     <header
-        android:fragment="com.braintech.watchmycar.SettingsActivity$GeneralPreferenceFragment"
+        android:fragment="com.braintech.watchmycar.SettingsActivity$SensorsPreferenceFragment"
         android:icon="@drawable/ic_info_black_24dp"
         android:title="@string/pref_sensors" >
-        <extra android:name="settings" android:value="prefs_sync" ></extra>
+        <extra android:name="settings" android:value="prefs_sensors" ></extra>
     </header>
 
 </preference-headers>

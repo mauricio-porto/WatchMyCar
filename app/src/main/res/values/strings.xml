@@ -71,6 +71,9 @@
     <string name="pref_sensors">Sensors</string>
     <string name="pref_notifications">Notifications</string>
     <string name="pref_general">General</string>
+    <string name="pref_title_delay_time">Set Delay Time</string>
+    <string name="pref_title_uses_arduino">External sensors</string>
+    <string name="pref_uses_arduino">Uses Arduino via Bluetooth for additional sensors</string>
 
     <string name="notification_time">Notification Time Interval</string>
     <string name="notification_time_summary">Only send notifications at configured interval</string>
@@ -114,21 +117,19 @@
     <string name="pref_header_data_sync">Data &amp; sync</string>
 
     <string name="pref_title_sync_frequency">Sync frequency</string>
-    <string-array name="pref_sync_frequency_titles">
-        <item>15 minutes</item>
-        <item>30 minutes</item>
-        <item>1 hour</item>
-        <item>3 hours</item>
-        <item>6 hours</item>
-        <item>Never</item>
+    <string-array name="pref_delay_time_titles">
+        <item>15 seconds</item>
+        <item>30 seconds</item>
+        <item>60 seconds</item>
+        <item>90 seconds</item>
+        <item>120 seconds</item>
     </string-array>
-    <string-array name="pref_sync_frequency_values">
+    <string-array name="pref_delay_time_values">
         <item>15</item>
         <item>30</item>
         <item>60</item>
-        <item>180</item>
-        <item>360</item>
-        <item>-1</item>
+        <item>90</item>
+        <item>120</item>
     </string-array>
 
     <string-array name="list_preference_entries">

@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="@string/pref_sensors">
-
         <Preference
             android:key="config_sound"
             android:title="@string/microphone_sensitivity" />
@@ -10,5 +8,4 @@
         <Preference
             android:key="config_movement"
             android:title="@string/accelerometer_prompt" />
-    </PreferenceCategory>
 </PreferenceScreen>

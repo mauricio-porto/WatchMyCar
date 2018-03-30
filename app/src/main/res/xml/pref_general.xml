@@ -1,8 +1,18 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="@string/pref_general">
-        <Preference
-            android:key="config_delay_time"
-            android:title="@string/timer_delay_label" />
-    </PreferenceCategory>
+    <ListPreference
+        android:key="config_delay_time"
+        android:defaultValue="30"
+        android:entries="@array/pref_delay_time_titles"
+        android:entryValues="@array/pref_delay_time_values"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/pref_title_delay_time" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="use_arduino"
+        android:title="@string/pref_title_uses_arduino"
+        android:summary="@string/pref_uses_arduino"/>
+
 </PreferenceScreen>

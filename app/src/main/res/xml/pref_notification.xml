@@ -1,10 +1,8 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="@string/pref_notifications">
-
         <!-- A 'parent' preference, which enables/disables child preferences (below)
          when checked/unchecked. -->
-        <SwitchPreferenceCompat
+        <SwitchPreference
             android:defaultValue="true"
             android:key="sms_active"
             android:title="@string/sms_label" />
@@ -15,6 +13,7 @@
             android:inputType="phone"
             android:key="sms_number"
             android:summary="@string/sms_dialog_summary"
+            android:dependency="sms_active"
             android:title="@string/phone_number" />
 
         <EditTextPreference
@@ -23,6 +22,7 @@
             android:inputType="phone"
             android:key="register_signal"
             android:summary="@string/signal_dialog_summary"
+            android:dependency="sms_active"
             android:title="@string/signal_number" />
 
         <EditTextPreference
@@ -31,6 +31,7 @@
             android:inputType="number"
             android:key="verify_signal"
             android:summary="@string/verification_dialog_summary"
+            android:dependency="sms_active"
             android:title="@string/verify_signal" />
 
         <EditTextPreference
@@ -39,8 +40,7 @@
             android:inputType="number"
             android:key="notification_time"
             android:summary="@string/notification_time_summary"
+            android:dependency="sms_active"
             android:title="@string/notification_time"/>
-    </PreferenceCategory>
-
 
 </PreferenceScreen>
