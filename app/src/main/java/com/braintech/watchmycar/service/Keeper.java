@@ -579,7 +579,7 @@ public class Keeper extends Service {
             switch (msg.what) {
                 case ACCELEROMETER:
                     sendToDevice("G");
-                    alert("Acelerometro!");
+                    alert("Movimento!");
                     break;
                 case CAMERA:
                     break;
