@@ -16,7 +16,7 @@ import android.os.RemoteException;
 import android.util.Log;
 
 import com.braintech.watchmycar.base.EventTrigger;
-import com.braintech.watchmycar.base.PreferenceManager;
+import com.braintech.watchmycar.base.ApplicationPreferences;
 import com.braintech.watchmycar.service.Keeper;
 
 
@@ -51,7 +51,7 @@ public class AmbientLightMonitor implements SensorEventListener {
     /**
      * Data field used to retrieve application prefences
      */
-    private PreferenceManager prefs;
+    private ApplicationPreferences prefs;
 
     private final static float LIGHT_CHANGE_THRESHOLD = 100f;
 
@@ -61,7 +61,7 @@ public class AmbientLightMonitor implements SensorEventListener {
     private final static int CHECK_INTERVAL = 1000;
 
     public AmbientLightMonitor(Context context) {
-        prefs = new PreferenceManager(context);
+        prefs = new ApplicationPreferences(context);
 
         context.bindService(new Intent(context,
                 Keeper.class), mConnection, Context.BIND_ABOVE_CLIENT);

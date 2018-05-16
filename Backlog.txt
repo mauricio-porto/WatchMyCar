@@ -1,0 +1,15 @@
+- Concluir Settings, SharedPreferences e PreferenceManager
+
+- Habilitar configuração de dispositivo Bluetooth (Device List +nova?)
+
+- Tratar casos onde não haja Arduino/Bluetooth
+
+    Neste caso, a utilidade seria apenas o SMS
+
+    Há algum outro recurso que poderia ser adicionado?
+
+- Corrigir uso de strings “hard coded”
+
+- Acrescentar a possibilidade de outras formas de envio de mensagem (Signal)
+
+- Adicionar segurança (comandos assinados), usando a eeprom para guardar a chave pública e validando a assinatura dos comandos

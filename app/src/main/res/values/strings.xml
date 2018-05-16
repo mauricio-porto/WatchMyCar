@@ -6,11 +6,10 @@
     <string name="title_activity_bluetooth_device_list">BluetoothDeviceList</string>
     <string name="intrusion_detected">A WatchMyCar sensor was triggered (Type: %s)</string>
 
-    <string name="accelerometer_prompt">Movement Sensitivity</string>
     <string name="microphone_sensitivity">Sound Sensitivity</string>
     <string name="timer_delay_label">Set Delay Time</string>
     <string name="sms_label">Send SMS or Signal message alerts</string>
-    <string name="sms_hint">+12125551212</string>
+    <string name="sms_hint">+5551991199991,+5551919191919</string>
 
 
     <string name="send">Send</string>
@@ -59,21 +58,25 @@
 
     <!--Preference Settings -->
     <string name="hint_number" translatable="false">+12125551212</string>
-    <string name="sms_dialog_summary">Remote phone number to send notifications to</string>
-    <string name="sms_dialog_message">Enter a remote phone number to send alert notifications to</string>
+    <string name="sms_dialog_summary">Phone number(s) to send notifications to</string>
+    <string name="sms_dialog_message">Enter the phone number(s) to send alert notifications to, comma separated if more than one</string>
     <string name="signal_dialog_summary">A phone number to send from using Signal</string>
     <string name="verification_dialog_summary">Tap to verify your Signal number</string>
     <string name="send_message_dialog">Enter a phone number to send a test alert notification message to</string>
     <string name="send_text_message">Test notifications...</string>
     <string name="service_address">Service Address</string>
     <string name="signal_number">Signal Number (Local)</string>
-    <string name="phone_number">Notification Number (Remote)</string>
+    <string name="phone_number">Notification Number(s)</string>
     <string name="pref_sensors">Sensors</string>
     <string name="pref_notifications">Notifications</string>
     <string name="pref_general">General</string>
     <string name="pref_title_delay_time">Set Delay Time</string>
     <string name="pref_title_uses_arduino">External sensors</string>
     <string name="pref_uses_arduino">Uses Arduino via Bluetooth for additional sensors</string>
+    <string name="pref_title_sound_sensivity">Sound sensivity</string>
+    <string name="pref_summary_sound_sensivity">Level sound to triger alarm in dB</string>
+    <string name="pref_movement_sensivity">Movement Sensitivity</string>
+    <string name="pref_summary_movement_sensivity">Movement sensivity to triger alarm</string>
 
     <string name="notification_time">Notification Time Interval</string>
     <string name="notification_time_summary">Only send notifications at configured interval</string>
@@ -132,16 +135,28 @@
         <item>120</item>
     </string-array>
 
-    <string-array name="list_preference_entries">
-        <item>Entry 1</item>
-        <item>Entry 2</item>
-        <item>Entry 3</item>
+    <string-array name="pref_sound_sensivity_titles">
+        <item>LOW</item>
+        <item>MEDIUM</item>
+        <item>HIGH</item>
     </string-array>
 
-    <string-array name="list_preference_entry_values">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
+    <string-array name="pref_sound_sensivity_values">
+        <item>LOW</item>
+        <item>MEDIUM</item>
+        <item>HIGH</item>
+    </string-array>
+
+    <string-array name="pref_movement_sensivity_titles">
+        <item>LOW</item>
+        <item>MEDIUM</item>
+        <item>HIGH</item>
+    </string-array>
+
+    <string-array name="pref_movement_sensivity_values">
+        <item>LOW</item>
+        <item>MEDIUM</item>
+        <item>HIGH</item>
     </string-array>
 
     <string-array name="multi_select_list_preference_default_value" />

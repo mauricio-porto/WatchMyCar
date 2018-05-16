@@ -9,7 +9,7 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.braintech.watchmycar.base.EventTrigger;
-import com.braintech.watchmycar.base.PreferenceManager;
+import com.braintech.watchmycar.base.ApplicationPreferences;
 import com.braintech.watchmycar.sensors.media.MicSamplerTask;
 import com.braintech.watchmycar.sensors.media.MicrophoneTaskFactory;
 
@@ -23,7 +23,7 @@ public final class MicrophoneMonitor implements MicSamplerTask.MicListener {
     /**
      * Object used to fetch application dependencies
      */
-    private PreferenceManager prefs;
+    private ApplicationPreferences prefs;
 
     /**
      * Threshold for the decibels sampled
@@ -39,13 +39,13 @@ public final class MicrophoneMonitor implements MicSamplerTask.MicListener {
         this.context = context;
         mHandler = svcHandler;
 
-        prefs = new PreferenceManager(context);
+        prefs = new ApplicationPreferences(context);
 
         switch (prefs.getMicrophoneSensitivity()) {
-            case PreferenceManager.HIGH:
+            case ApplicationPreferences.HIGH:
                 mNoiseThreshold = HIGH_SENSIVITY_THRESHOLD;
                 break;
-            case PreferenceManager.MEDIUM:
+            case ApplicationPreferences.MEDIUM:
                 mNoiseThreshold = MEDIUM_SENSIVITY_THRESHOLD;
                 break;
             default:

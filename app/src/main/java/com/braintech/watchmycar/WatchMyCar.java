@@ -26,14 +26,14 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.braintech.watchmycar.base.PreferenceManager;
+import com.braintech.watchmycar.base.ApplicationPreferences;
 import com.braintech.watchmycar.service.Keeper;
 import static com.braintech.watchmycar.Utils.getTimerText;
 
 public class WatchMyCar extends AppCompatActivity {
 
     private static final String TAG = WatchMyCar.class.getSimpleName();
-    private PreferenceManager preferences = null;
+    private ApplicationPreferences preferences = null;
 
 	// Local Bluetooth adapter
     private BluetoothAdapter mBluetoothAdapter = null;
@@ -65,7 +65,7 @@ public class WatchMyCar extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        preferences = new PreferenceManager(getApplicationContext());
+        preferences = new ApplicationPreferences(getApplicationContext());
         setContentView(R.layout.try_again);
 
 		// Get local Bluetooth adapter

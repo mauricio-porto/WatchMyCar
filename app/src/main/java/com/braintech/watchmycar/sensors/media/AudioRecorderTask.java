@@ -16,7 +16,7 @@ import android.os.Environment;
 import android.util.Log;
 
 
-import com.braintech.watchmycar.base.PreferenceManager;
+import com.braintech.watchmycar.base.ApplicationPreferences;
 
 import java.io.File;
 
@@ -31,7 +31,7 @@ public class AudioRecorderTask extends Thread {
 	/**
 	 * Shared preferences of the application
 	 */
-	private PreferenceManager prefs;
+	private ApplicationPreferences prefs;
 	
 
 	/**
@@ -65,7 +65,7 @@ public class AudioRecorderTask extends Thread {
 	protected AudioRecorderTask(Context context) {
 		super();
 		this.context = context;
-		this.prefs = new PreferenceManager(context);
+		this.prefs = new ApplicationPreferences(context);
 		Log.i("AudioRecorderTask", "Created recorder");
 
         File fileFolder = new File(Environment.getExternalStorageDirectory().getPath(),prefs.getAudioPath());

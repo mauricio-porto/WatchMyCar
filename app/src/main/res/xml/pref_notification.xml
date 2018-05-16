@@ -1,46 +1,28 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-        <!-- A 'parent' preference, which enables/disables child preferences (below)
-         when checked/unchecked. -->
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="sms_active"
-            android:title="@string/sms_label" />
+    <!-- A 'parent' preference, which enables/disables child preferences (below)
+     when checked/unchecked. -->
+    <SwitchPreference
+        android:key="sms_active"
+        android:defaultValue="false"
+        android:title="@string/sms_label" />
 
-        <EditTextPreference
-            android:dialogLayout="@layout/pref_dialog_edit_text_hint"
-            android:dialogMessage="@string/sms_dialog_message"
-            android:inputType="phone"
-            android:key="sms_number"
-            android:summary="@string/sms_dialog_summary"
-            android:dependency="sms_active"
-            android:title="@string/phone_number" />
+    <EditTextPreference
+        android:key="sms_number"
+        android:defaultValue="@string/sms_hint"
+        android:dialogMessage="@string/sms_dialog_message"
+        android:inputType="phone"
+        android:summary="@string/sms_dialog_summary"
+        android:dependency="sms_active"
+        android:title="@string/phone_number" />
 
-        <EditTextPreference
-            android:dialogLayout="@layout/pref_dialog_edit_text_hint"
-            android:dialogMessage="@string/register_signal_desc"
-            android:inputType="phone"
-            android:key="register_signal"
-            android:summary="@string/signal_dialog_summary"
-            android:dependency="sms_active"
-            android:title="@string/signal_number" />
-
-        <EditTextPreference
-            android:dialogLayout="@layout/pref_dialog_edit_text"
-            android:dialogMessage="@string/enter_verification"
-            android:inputType="number"
-            android:key="verify_signal"
-            android:summary="@string/verification_dialog_summary"
-            android:dependency="sms_active"
-            android:title="@string/verify_signal" />
-
-        <EditTextPreference
-            android:dialogLayout="@layout/pref_dialog_edit_text"
-            android:dialogMessage="@string/notification_time_dialog"
-            android:inputType="number"
-            android:key="notification_time"
-            android:summary="@string/notification_time_summary"
-            android:dependency="sms_active"
-            android:title="@string/notification_time"/>
+    <EditTextPreference
+        android:key="notification_time"
+        android:defaultValue="0"
+        android:dialogMessage="@string/notification_time_dialog"
+        android:inputType="number"
+        android:summary="@string/notification_time_summary"
+        android:dependency="sms_active"
+        android:title="@string/notification_time"/>
 
 </PreferenceScreen>

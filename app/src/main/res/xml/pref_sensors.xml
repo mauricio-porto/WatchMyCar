@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-        <Preference
-            android:key="config_sound"
-            android:title="@string/microphone_sensitivity" />
+    <ListPreference
+        android:key="config_sound"
+        android:defaultValue="MEDIUM"
+        android:entries="@array/pref_sound_sensivity_titles"
+        android:entryValues="@array/pref_sound_sensivity_values"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:summary="@string/pref_summary_sound_sensivity"
+        android:title="@string/pref_title_sound_sensivity" />
 
-        <Preference
-            android:key="config_movement"
-            android:title="@string/accelerometer_prompt" />
+    <ListPreference
+        android:key="config_movement"
+        android:defaultValue="MEDIUM"
+        android:entries="@array/pref_movement_sensivity_titles"
+        android:entryValues="@array/pref_movement_sensivity_values"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:summary="@string/pref_summary_movement_sensivity"
+        android:title="@string/pref_movement_sensivity" />
+
 </PreferenceScreen>

@@ -10,8 +10,8 @@
         android:title="@string/pref_title_delay_time" />
 
     <SwitchPreference
-        android:defaultValue="true"
         android:key="use_arduino"
+        android:defaultValue="false"
         android:title="@string/pref_title_uses_arduino"
         android:summary="@string/pref_uses_arduino"/>
 

@@ -13,7 +13,7 @@
 
         <Preference
             android:key="config_movement"
-            android:title="@string/accelerometer_prompt" />
+            android:title="@string/pref_movement_sensivity" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_notifications">

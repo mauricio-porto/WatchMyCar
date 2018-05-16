@@ -10,7 +10,7 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.braintech.watchmycar.base.EventTrigger;
-import com.braintech.watchmycar.base.PreferenceManager;
+import com.braintech.watchmycar.base.ApplicationPreferences;
 
 /**
  * Created by n8fr8 on 3/10/17.
@@ -45,7 +45,7 @@ public class AccelerometerMonitor implements SensorEventListener {
     /**
      * Data field used to retrieve application prefences
      */
-    private PreferenceManager prefs;
+    private ApplicationPreferences prefs;
 
     private final Handler mHandler;
 
@@ -66,7 +66,7 @@ public class AccelerometerMonitor implements SensorEventListener {
     private final static int CHECK_INTERVAL = 100;
 
     public AccelerometerMonitor(Context context, Handler svcHandler) {
-        prefs = new PreferenceManager(context);
+        prefs = new ApplicationPreferences(context);
         mHandler = svcHandler;
 
 		/*
