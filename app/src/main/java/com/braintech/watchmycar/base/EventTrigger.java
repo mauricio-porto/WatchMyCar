@@ -101,23 +101,11 @@ public class EventTrigger extends SugarRecord {
             case EventTrigger.ACCELEROMETER:
                 sType = context.getString(R.string.sensor_accel);
                 break;
-            case EventTrigger.LIGHT:
-                sType = context.getString(R.string.sensor_light);
-                break;
-            case EventTrigger.CAMERA:
-                sType = context.getString(R.string.sensor_camera);
-                break;
             case EventTrigger.MICROPHONE:
                 sType = context.getString(R.string.sensor_sound);
                 break;
-            case EventTrigger.POWER:
-                sType = context.getString(R.string.sensor_power);
-                break;
             case EventTrigger.BUMP:
                 sType = context.getString(R.string.sensor_bump);
-                break;
-            case EventTrigger.CAMERA_VIDEO:
-                sType = context.getString(R.string.sensor_camera_video);
                 break;
             default:
                 sType = context.getString(R.string.sensor_unknown);

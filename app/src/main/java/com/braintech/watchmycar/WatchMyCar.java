@@ -7,6 +7,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -15,6 +16,7 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
@@ -28,6 +30,7 @@ import android.widget.Toast;
 
 import com.braintech.watchmycar.base.ApplicationPreferences;
 import com.braintech.watchmycar.service.Keeper;
+
 import static com.braintech.watchmycar.Utils.getTimerText;
 
 public class WatchMyCar extends AppCompatActivity {
@@ -61,11 +64,13 @@ public class WatchMyCar extends AppCompatActivity {
     private static final int REQUEST_START_SERVICE = 3;
 
     private TextView mTextMessage;
+    private FloatingActionButton settingsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         preferences = new ApplicationPreferences(getApplicationContext());
+
         setContentView(R.layout.try_again);
 
 		// Get local Bluetooth adapter
@@ -82,8 +87,7 @@ public class WatchMyCar extends AppCompatActivity {
         txtAlarmStatus = (TextView) findViewById(R.id.alarm_status_text);
         txtTimer = (TextView) findViewById(R.id.timer_text);
         txtTimerTitle = (TextView) findViewById(R.id.timer_text_title);
-        int timeM = preferences.getTimerDelay() * 1000;
-        txtTimer.setText(getTimerText(timeM));
+        setDelayTimer();
 
         findViewById(R.id.btnStartStop).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,8 +112,8 @@ public class WatchMyCar extends AppCompatActivity {
             return;
         }
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        settingsButton  = (FloatingActionButton) findViewById(R.id.fab);
+        settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent modifySettings=new Intent(WatchMyCar.this,SettingsActivity.class);
@@ -158,7 +162,12 @@ public class WatchMyCar extends AppCompatActivity {
         super.onDestroy();
     }
 
-	private void startKeeper() {
+    private void setDelayTimer() {
+        int timeM = preferences.getTimerDelay() * 1000;
+        txtTimer.setText(getTimerText(timeM));
+    }
+
+    private void startKeeper() {
 		Log.d(TAG, "\t\t\t\t\tWILL START!!!!");
 		Intent intent = new Intent(Keeper.ACTION_START);
 		intent.setClass(this, Keeper.class);
@@ -180,6 +189,7 @@ public class WatchMyCar extends AppCompatActivity {
             Intent serviceIntent = new Intent(this, Keeper.class);
         	this.isBound = this.bindService(serviceIntent, this.btReceiverConnection, Context.BIND_AUTO_CREATE);
         }
+        setDelayTimer();
     }
 
     @Override
@@ -243,6 +253,7 @@ public class WatchMyCar extends AppCompatActivity {
                 sendTextToService(Keeper.ARM, "armed");
             }
         };
+        settingsButton.setEnabled(false);
         cTimer.start();
     }
 
@@ -261,6 +272,7 @@ public class WatchMyCar extends AppCompatActivity {
         txtTimerTitle.setVisibility(View.VISIBLE);
         armed = false;
         sendTextToService(Keeper.DISARM, "disarmed");
+        settingsButton.setEnabled(true);
     }
 
     /**

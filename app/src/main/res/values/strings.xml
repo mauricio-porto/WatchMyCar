@@ -9,10 +9,8 @@
     <string name="microphone_sensitivity">Sound Sensitivity</string>
     <string name="timer_delay_label">Set Delay Time</string>
     <string name="sms_label">Send SMS or Signal message alerts</string>
-    <string name="sms_hint">+5551991199991,+5551919191919</string>
 
 
-    <string name="send">Send</string>
     <string name="not_connected">You are not connected to a device</string>
     <string name="bt_not_enabled_leaving">Bluetooth was not enabled. Leaving GuideDroid.</string>
     <string name="title_connecting">connecting...</string>
@@ -35,20 +33,10 @@
     <string name="settings">Settings</string>
     <string name="about">About</string>
     <string name="help">Help</string>
-    <string name="action_quit">Quit</string>
-    <string name="guidedroid_preferences">Preferences</string>
-    <string name="title_beep_preference">Beep</string>
-    <string name="summary_beep_preference_yes_no">Use sound to warn obstacles</string>
-    <string name="title_vibration_preference">Vibration</string>
-    <string name="summary_vibration_preference_yes_no">Use vibration to warn obstacles</string>
 
-    <string name="sensor_light">Ambient Light</string>
     <string name="sensor_accel">Motion (Accelerometer)</string>
-    <string name="sensor_camera">Motion (Camera)</string>
     <string name="sensor_sound">Microphone</string>
-    <string name="sensor_power">USB Power</string>
     <string name="sensor_bump">Bump (Accelerometer)</string>
-    <string name="sensor_camera_video">Motion (Video)</string>
     <string name="sensor_unknown">Unknown</string>
 
     <string name="alarm_status_on">ARMED</string>
@@ -57,16 +45,11 @@
     <string name="title_countdown_time">Countdown:</string>
 
     <!--Preference Settings -->
-    <string name="hint_number" translatable="false">+12125551212</string>
+    <string name="phone_number">Notification Number(s)</string>
     <string name="sms_dialog_summary">Phone number(s) to send notifications to</string>
     <string name="sms_dialog_message">Enter the phone number(s) to send alert notifications to, comma separated if more than one</string>
+    <string name="sms_hint" translatable="false">+5551991199991,+5551919191919</string>
     <string name="signal_dialog_summary">A phone number to send from using Signal</string>
-    <string name="verification_dialog_summary">Tap to verify your Signal number</string>
-    <string name="send_message_dialog">Enter a phone number to send a test alert notification message to</string>
-    <string name="send_text_message">Test notifications...</string>
-    <string name="service_address">Service Address</string>
-    <string name="signal_number">Signal Number (Local)</string>
-    <string name="phone_number">Notification Number(s)</string>
     <string name="pref_sensors">Sensors</string>
     <string name="pref_notifications">Notifications</string>
     <string name="pref_general">General</string>
@@ -83,43 +66,12 @@
     <string name="notification_time_dialog">Enter time (minutes) to limit notifications. \'0\' to send every notification.</string>
     <string name="minutes">minutes(s)</string>
     <string name="keep_watch">Keep Watch!</string>
-    <string name="register_signal_desc">Enter a phone number to register with Signal, to use to send secure notifications. You can use this device\'s phone number or setup a virtual number.\n\nWARNING: If this number is already configured with a Signal app install, it will stop working there, and only work within Haven.</string>
-    <string name="verify_signal">Verify Signal</string>
-    <string name="enter_verification">Enter the verification code you received from the Signal registration step</string>
-    <string name="verify">Verify</string>
-    <string name="register">Register</string>
-    <string name="save_number">Save Number</string>
-    <string name="title_activity_settings2">Settings</string>
+    <string name="title_activity_settings">Settings</string>
 
     <!-- Strings related to Settings -->
 
-    <!-- Example General settings -->
     <string name="pref_header_general">General</string>
 
-    <string name="pref_title_social_recommendations">Enable social recommendations</string>
-    <string name="pref_description_social_recommendations">Recommendations for people to contact
-        based on your message history
-    </string>
-
-    <string name="pref_title_display_name">Display name</string>
-    <string name="pref_default_display_name">John Smith</string>
-
-    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
-    <string-array name="pref_example_list_titles">
-        <item>Always</item>
-        <item>When possible</item>
-        <item>Never</item>
-    </string-array>
-    <string-array name="pref_example_list_values">
-        <item>1</item>
-        <item>0</item>
-        <item>-1</item>
-    </string-array>
-
-    <!-- Example settings for Data & Sync -->
-    <string name="pref_header_data_sync">Data &amp; sync</string>
-
-    <string name="pref_title_sync_frequency">Sync frequency</string>
     <string-array name="pref_delay_time_titles">
         <item>15 seconds</item>
         <item>30 seconds</item>
@@ -159,18 +111,6 @@
         <item>HIGH</item>
     </string-array>
 
-    <string-array name="multi_select_list_preference_default_value" />
-
-    <string name="pref_title_system_sync_settings">System sync settings</string>
-
-    <!-- Example settings for Notifications -->
     <string name="pref_header_notifications">Notifications</string>
-
-    <string name="pref_title_new_message_notifications">New message notifications</string>
-
-    <string name="pref_title_ringtone">Ringtone</string>
-    <string name="pref_ringtone_silent">Silent</string>
-
-    <string name="pref_title_vibrate">Vibrate</string>
 
 </resources>

@@ -9,8 +9,8 @@ import android.hardware.SensorManager;
 import android.os.Handler;
 import android.util.Log;
 
-import com.braintech.watchmycar.base.EventTrigger;
 import com.braintech.watchmycar.base.ApplicationPreferences;
+import com.braintech.watchmycar.base.EventTrigger;
 
 /**
  * Created by n8fr8 on 3/10/17.

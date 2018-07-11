@@ -14,6 +14,8 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
+import com.braintech.watchmycar.base.ApplicationPreferences;
+
 import java.util.List;
 
 /**
@@ -155,15 +157,15 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             String settings = getArguments().getString("settings");
             if ("prefs_general".equals(settings)) {
                 addPreferencesFromResource(R.xml.pref_general);
-                bindPreferenceSummaryToValue(findPreference("config_delay_time"));
+                bindPreferenceSummaryToValue(findPreference(ApplicationPreferences.KEY_DELAY_TIME));
             } else if ("prefs_notification".equals(settings)) {
                 addPreferencesFromResource(R.xml.pref_notification);
-                bindPreferenceSummaryToValue(findPreference("sms_number"));
-                bindPreferenceSummaryToValue(findPreference("notification_time"));
+                bindPreferenceSummaryToValue(findPreference(ApplicationPreferences.KEY_SMS_NUMBER));
+                bindPreferenceSummaryToValue(findPreference(ApplicationPreferences.KEY_NOTIFICATION_TIME));
             } else if ("prefs_sensors".equals(settings)) {
                 addPreferencesFromResource(R.xml.pref_sensors);
-                bindPreferenceSummaryToValue(findPreference("config_sound"));
-                bindPreferenceSummaryToValue(findPreference("config_movement"));
+                bindPreferenceSummaryToValue(findPreference(ApplicationPreferences.KEY_CONFIG_SOUND));
+                bindPreferenceSummaryToValue(findPreference(ApplicationPreferences.KEY_CONFIG_MOVEMENT));
             }
             setHasOptionsMenu(true);
 

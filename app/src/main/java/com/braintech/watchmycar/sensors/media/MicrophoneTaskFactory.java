@@ -25,21 +25,9 @@ public class MicrophoneTaskFactory {
 		
 	}
 	
-	private static AudioRecorderTask recorderTask;
-	
-	private static MicSamplerTask samplerTask; 
-	
-	public static synchronized AudioRecorderTask makeRecorder(Context context) throws RecordLimitExceeded {
-		if (recorderTask != null && recorderTask.isRecording()) 
-			throw new RecordLimitExceeded();
+	private static MicSamplerTask samplerTask;
 
-		recorderTask = new AudioRecorderTask(context);
-		return recorderTask;
-	}
-	
 	public static MicSamplerTask makeSampler(Context context) throws RecordLimitExceeded {
-		if ((recorderTask != null && recorderTask.isRecording()) || (samplerTask != null && !samplerTask.isCancelled())) 
-			throw new RecordLimitExceeded();
 		samplerTask = new MicSamplerTask();
 		return samplerTask;
 	}
@@ -59,9 +47,4 @@ public class MicrophoneTaskFactory {
 	public static boolean isSampling() {
 		return samplerTask != null && samplerTask.isSampling();
 	}
-	
-	public static boolean isRecording() {
-		return recorderTask != null && recorderTask.isRecording();
-	}
-
 }
