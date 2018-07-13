@@ -52,7 +52,10 @@ public class AccelerometerMonitor implements SensorEventListener {
     /**
      * Shake threshold
      */
-    private float shakeThreshold = 0.5f;
+    private float highSensivity = 0.075f;
+    private float mediumSensivity = 0.25f;
+    private float lowSensivity = 0.5f;
+    private float shakeThreshold = mediumSensivity;       // Start MEDIUM
 
     private float mAccelCurrent = SensorManager.GRAVITY_EARTH;
     private float mAccelLast = SensorManager.GRAVITY_EARTH;
@@ -72,11 +75,7 @@ public class AccelerometerMonitor implements SensorEventListener {
 		/*
          * Set sensitivity value
 		 */
-        try {
-            shakeThreshold = Integer.parseInt(prefs.getAccelerometerSensitivity());
-        } catch (Exception e) {
-            // Let the default value
-        }
+		setSensivity(prefs.getAccelerometerSensitivity());
 
         sensorMgr = (SensorManager) context.getSystemService(Activity.SENSOR_SERVICE);
         accelerometer = sensorMgr.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -138,6 +137,22 @@ public class AccelerometerMonitor implements SensorEventListener {
 
     public void stop(Context context) {
         sensorMgr.unregisterListener(this);
+    }
+
+    public void setSensivity(String sensivity) {
+        switch (sensivity) {
+            case ApplicationPreferences.HIGH:
+                shakeThreshold = highSensivity;
+                break;
+            case ApplicationPreferences.MEDIUM:
+                shakeThreshold = mediumSensivity;
+                break;
+            case ApplicationPreferences.LOW:
+                shakeThreshold = lowSensivity;
+                break;
+            default:
+                break;
+        }
     }
 
 }

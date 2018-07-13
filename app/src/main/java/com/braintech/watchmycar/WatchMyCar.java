@@ -2,12 +2,12 @@ package com.braintech.watchmycar;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -16,7 +16,6 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
@@ -59,9 +58,10 @@ public class WatchMyCar extends AppCompatActivity {
     private static final int PERMISSION_RECORD_AUDIO = 0;
 
     // Intent request codes
-    private static final int REQUEST_CONNECT_DEVICE = 1;
-    private static final int REQUEST_ENABLE_BT = 2;
-    private static final int REQUEST_START_SERVICE = 3;
+    private static final int REQUEST_ENABLE_BT = 1;
+    private static final int REQUEST_CONNECT_DEVICE_SECURE = 2;
+    private static final int REQUEST_CONNECT_DEVICE_INSECURE = 3;
+
 
     private TextView mTextMessage;
     private FloatingActionButton settingsButton;
@@ -199,15 +199,23 @@ public class WatchMyCar extends AppCompatActivity {
         this.unbindKeeper();
     }
 
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder aBuilder = new AlertDialog.Builder(this).setMessage("No Way!!!");
+        AlertDialog aDialog = aBuilder.create();
+        aDialog.show();
+    }
+
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
     	String[] results = {"OK","CANCELED","FIRST_USER"};
         Log.d(TAG, "onActivityResult with code: " + ((resultCode < 2)?results[1+resultCode]:"User defined"));
         switch (requestCode) {
-        case REQUEST_CONNECT_DEVICE:
-            // When BluetoothDeviceList returns with a device to connect
+        case REQUEST_CONNECT_DEVICE_SECURE:
+        case REQUEST_CONNECT_DEVICE_INSECURE:
+            // When DeviceListActivity returns with a device to connect
             if (resultCode == Activity.RESULT_OK) {
                 // Get the device MAC address
-                String address = data.getExtras().getString(BluetoothDeviceList.EXTRA_DEVICE_ADDRESS);
+                String address = data.getExtras().getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
                 // Attempt to connect to the device
                 Log.d(TAG, "\n\n\n\nonActivityResult() - O ENDERECO DO DEVICE EH: " + address + " e receciverSvcConnected diz: " + this.receiverSvcConnected + "\n\n\n\n");
             	if (address != null) {
@@ -286,22 +294,22 @@ public class WatchMyCar extends AppCompatActivity {
         	}
             Log.i(TAG, "Received message from Keeper: " + Keeper.BT_STATUS.values()[msg.what]);
             switch (msg.what) {
-            case Keeper.ARDUINO_DATA:
+            case Keeper.COMPANION_DATA:
             	break;
             case Keeper.BT_DISABLED:
                 Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                 startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
                 break;
-            case Keeper.ARDUINO_NOT_CONFIGURED:
-                // Launch the BluetoothDeviceList to see devices and do scan
-                //Intent serverIntent = new Intent(GuideDroid.this, BluetoothDeviceList.class);
-                //startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
+            case Keeper.COMPANION_NOT_CONFIGURED:
+                // Launch the DeviceListActivity to see devices and do scan
+                Intent serverIntent = new Intent(WatchMyCar.this, DeviceListActivity.class);
+                startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_SECURE);
             	break;
-            case Keeper.ARDUINO_CONNECTED:
-                mTextMessage.setText("Arduino connected");  // TODO Colocar em Strings
+            case Keeper.COMPANION_CONNECTED:
+                mTextMessage.setText("Companion connected");  // TODO Colocar em Strings
             	break;
             case Keeper.CONNECTING:
-                mTextMessage.setText("Connecting to Arduino");  // TODO idem
+                mTextMessage.setText("Connecting to Companion");  // TODO idem
             	break;
             case Keeper.NOT_RUNNING:
             	armed = false;

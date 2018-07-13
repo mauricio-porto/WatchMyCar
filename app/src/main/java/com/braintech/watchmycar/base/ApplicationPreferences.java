@@ -42,6 +42,9 @@ public class ApplicationPreferences {
     public static final String KEY_CONFIG_SOUND = "config_sound";
     public static final String KEY_CONFIG_MOVEMENT = "config_movement";
 
+    public static final String KEY_COMPANION_BT_ADDRESS = "companion_bt_address";
+    public static final String KEY_USE_ARDUINO = "use_arduino";
+
     private Context context;
 	
     public ApplicationPreferences(Context context) {
@@ -63,6 +66,22 @@ public class ApplicationPreferences {
 
     public String getAccelerometerSensitivity() {
         return appSharedPrefs.getString(KEY_CONFIG_MOVEMENT, HIGH);
+    }
+
+    public String getSoundSensitivity() {
+        return appSharedPrefs.getString(KEY_CONFIG_SOUND, MEDIUM);
+    }
+
+    public boolean usesCompanion() {
+        return appSharedPrefs.getBoolean(KEY_USE_ARDUINO, false);
+    }
+
+    public String getCompanionAddress() {
+        return appSharedPrefs.getString(KEY_COMPANION_BT_ADDRESS, null);
+    }
+
+    public void setCompanionAddress(String btAddress) {
+        appSharedPrefs.edit().putString(KEY_COMPANION_BT_ADDRESS, btAddress).commit();
     }
 
     public String getAudioPath () {
