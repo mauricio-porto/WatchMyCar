@@ -53,6 +53,7 @@ public class WatchMyCar extends AppCompatActivity {
     private boolean receiverSvcConnected = false;
     private boolean isBound = false;
     private boolean armed = false;
+    private boolean usesCompanion;
     private Messenger messageReceiver = null;
 
     private static final int PERMISSION_RECORD_AUDIO = 0;
@@ -70,6 +71,7 @@ public class WatchMyCar extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         preferences = new ApplicationPreferences(getApplicationContext());
+        usesCompanion = preferences.usesCompanion();
 
         setContentView(R.layout.try_again);
 
@@ -208,6 +210,10 @@ public class WatchMyCar extends AppCompatActivity {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
     	String[] results = {"OK","CANCELED","FIRST_USER"};
+    	usesCompanion = preferences.usesCompanion();
+    	if (!usesCompanion) {
+    	    return;
+        }
         Log.d(TAG, "onActivityResult with code: " + ((resultCode < 2)?results[1+resultCode]:"User defined"));
         switch (requestCode) {
         case REQUEST_CONNECT_DEVICE_SECURE:
@@ -224,7 +230,7 @@ public class WatchMyCar extends AppCompatActivity {
             	break;
             }
             // User did not enable Bluetooth or an error occurred
-            Log.d(TAG, "\t\t\tHRM selection failed. Giving up...");
+            Log.d(TAG, "\t\t\tCompanion selection failed. Giving up...");
             Toast.makeText(this, R.string.none_paired, Toast.LENGTH_SHORT).show();
             finish();
             break;
@@ -286,30 +292,39 @@ public class WatchMyCar extends AppCompatActivity {
     /**
      * Handler of incoming messages from Keeper.
      */
-   final Handler serviceMessages = new Handler() {
+   private final Handler serviceMessages = new Handler() {
         @Override
         public void handleMessage(Message msg) {
         	if (msg.what < 0) {
         		return;
         	}
-            Log.i(TAG, "Received message from Keeper: " + Keeper.BT_STATUS.values()[msg.what]);
+        	usesCompanion = preferences.usesCompanion();
+        	Log.i(TAG, "Received message from Keeper: " + Keeper.BT_STATUS.values()[msg.what]);
             switch (msg.what) {
             case Keeper.COMPANION_DATA:
             	break;
             case Keeper.BT_DISABLED:
-                Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
+                if (usesCompanion) {
+                    Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                    startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
+                }
                 break;
             case Keeper.COMPANION_NOT_CONFIGURED:
-                // Launch the DeviceListActivity to see devices and do scan
-                Intent serverIntent = new Intent(WatchMyCar.this, DeviceListActivity.class);
-                startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_SECURE);
+                if (usesCompanion) {
+                    // Launch the DeviceListActivity to see devices and do scan
+                    Intent serverIntent = new Intent(WatchMyCar.this, DeviceListActivity.class);
+                    startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_SECURE);
+                }
             	break;
             case Keeper.COMPANION_CONNECTED:
-                mTextMessage.setText("Companion connected");  // TODO Colocar em Strings
+                if (usesCompanion) {
+                    mTextMessage.setText("Companion connected");  // TODO Colocar em Strings
+                }
             	break;
             case Keeper.CONNECTING:
-                mTextMessage.setText("Connecting to Companion");  // TODO idem
+                if (usesCompanion) {
+                    mTextMessage.setText("Connecting to Companion");  // TODO idem
+                }
             	break;
             case Keeper.NOT_RUNNING:
             	armed = false;
